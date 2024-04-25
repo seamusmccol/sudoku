@@ -17,14 +17,15 @@ GAME_OVER_FONT = 40
 
 
 
-
+board = [["-" for i in range(9)] for j in range(9)]
 
 
 
 class Board:
-    def __init__(self, width, height, screen, difficulty):
-        self.width = width
-        self.height = height
+    def __init__(self, board, WIDTH, HEIGHT, screen, difficulty):
+        self.board = board
+        self.width = WIDTH
+        self.height = HEIGHT
         self.screen = screen
         self.difficulty = difficulty
 

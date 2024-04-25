@@ -1,5 +1,6 @@
 import pygame, sys
 from Board import *
+from sudoku_generator import SudokuGenerator
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -9,7 +10,9 @@ screen.fill(BG_COLOR)
 
 num_font = pygame.font.Font(None, NUM_SIZE)
 
-board = Board()
+difficulty = 'easy'
+
+Board(board, WIDTH, HEIGHT, screen, difficulty)
 
 
 def draw_grid():
@@ -53,7 +56,7 @@ def draw_num():
     for row in range(BOARD_ROWS):
         for col in range(BOARD_COLS):
             if board[row][col] != 0:
-                num_rect = num_surf.get_rect(center = col*SQUARE_SIZE + SQUARE_SIZE/2, row*SQUARE_SIZE + SQUARE_SIZE/2)
+                num_rect = num_surf.get_rect( center = (col*SQUARE_SIZE + SQUARE_SIZE/2, row * SQUARE_SIZE + SQUARE_SIZE/2))
                 screen.blit(num_surf, num_rect)
 
 
@@ -62,6 +65,7 @@ def draw_num():
     screen.blit(num_surf, num_rect)
 
 
+screen.fill(BG_COLOR)
 draw_grid()
 draw_num()
 

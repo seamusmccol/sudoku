@@ -14,6 +14,44 @@ difficulty = 'easy'
 
 Board(board, WIDTH, HEIGHT, screen, difficulty)
 
+def game_start_screen(screen):
+    # Initialize screens and fonts for the start screen
+    screen.fill(BG_COLOR)
+    start_title_font = pygame.font.Font(None, 100)
+    button_font = pygame.font.Font(None, 70)
+
+    # Initialize the start screen itself and draw it
+    title = start_title_font.render("Sudoku", 0, LINE_COLOR)
+    title_rect = title.get_rect( center=(WIDTH//2, HEIGHT//2 - 150))
+    screen.blit(title, title_rect)
+
+    # Initialize button and text
+    easy_text = button_font.render("Easy", 0, (255, 255, 255))
+    medium_text = button_font.render("Medium", 0, (255, 255, 255))
+    hard_text = button_font.render("Hard", 0, (255, 255, 255))
+
+    # Initialize background and text color of the buttons
+    easy = pygame.Surface((easy_text.get_size()[0] + 20, easy_text.get_size()[1] + 20))
+    easy.fill(BG_COLOR)
+    easy.blit(easy_text, (10, 10))
+    medium = pygame.Surface((medium_text.get_size()[0] + 20, medium_text.get_size()[1] + 20))
+    medium.fill(BG_COLOR)
+    medium.blit(medium_text, (10, 10))
+    hard = pygame.Surface((hard_text.get_size()[0] + 20, hard_text.get_size()[1] + 20))
+    hard.fill(BG_COLOR)
+    hard.blit(hard_text, (10, 10))
+
+    # Activates button
+    easy_rectangle = easy.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    medium_rectangle = medium.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100))
+    hard_rectangle = hard.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 200))
+
+    # Draw Buttons
+    screen.blit(easy, easy_rectangle)
+    screen.blit(medium, medium_rectangle)
+    screen.blit(hard, hard_rectangle)
+
+
 
 def draw_grid():
     #draw horizontal line
@@ -69,6 +107,7 @@ screen.fill(BG_COLOR)
 draw_grid()
 draw_num()
 
+game_start_screen(screen)
 while True:
     #event loop
     for event in pygame.event.get():

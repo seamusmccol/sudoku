@@ -3,12 +3,10 @@ import random
 import pygame, sys
 from Board import *
 from sudoku_generator import SudokuGenerator
-import random
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku")
-numlist = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 screen.fill(BG_COLOR)
 
 num_font = pygame.font.Font(None, NUM_SIZE)
@@ -169,13 +167,15 @@ def draw_grid():
 
 def draw_num():
     #the number 5 is temporary
-    num_surf = num_font.render("5", 0, NUM_COLOR)
+    num_surf = num_font.render("2", 0, NUM_COLOR)
     #make the board initialization in order for this to work
     for row in range(BOARD_ROWS):
         for col in range(BOARD_COLS):
             if board[row][col] != 0:
-                num_rect = num_surf.get_rect( center = (col*SQUARE_SIZE + SQUARE_SIZE/2, row * SQUARE_SIZE + SQUARE_SIZE/2))
+                num_rect = num_surf.get_rect( center = (col*SQUARE_SIZE2 + SQUARE_SIZE2/2, row * SQUARE_SIZE2 + SQUARE_SIZE2/2))
                 screen.blit(num_surf, num_rect)
+
+
 
 
     num_surf = num_font.render("5", 0, NUM_COLOR)

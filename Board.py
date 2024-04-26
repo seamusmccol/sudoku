@@ -29,8 +29,6 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
 
-    def draw(self):
-        pass
 
     def select(self, row, col):
         pass

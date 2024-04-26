@@ -1,11 +1,14 @@
+import random
+
 import pygame, sys
 from Board import *
 from sudoku_generator import SudokuGenerator
+import random
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku")
-
+numlist = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 screen.fill(BG_COLOR)
 
 num_font = pygame.font.Font(None, NUM_SIZE)
@@ -165,7 +168,7 @@ def draw_grid():
         )
 
 def draw_num():
-    #the number 5 is temporary, will take an input in the future
+    #the number 5 is temporary
     num_surf = num_font.render("5", 0, NUM_COLOR)
     #make the board initialization in order for this to work
     for row in range(BOARD_ROWS):
@@ -215,20 +218,31 @@ while True:
                 # User click on "easy", should set blank space generated quantity accordingly
                 print("easy")
                 difficulty_button_clicked = True
+                difficulty = "easy"
             elif medium_rectangle.collidepoint(x, y):
                 # User click on "medium", should set blank space generated quantity accordingly
                 print("medium")
                 difficulty_button_clicked = True
+                difficulty = "medium"
             elif hard_rectangle.collidepoint(x, y):
                 # User click on "hard", should set blank space generated quantity accordingly
                 print("hard")
                 difficulty_button_clicked = True
+                difficulty = "hard"
 
         if difficulty_button_clicked == True:
             # Set up the grid
             screen.fill(BG_COLOR)
             draw_grid()
+            if difficulty == "easy":
+                sudoku = SudokuGenerator(9, 30)
+            if difficulty == "medium":
+                sudoku = SudokuGenerator(9, 40)
+            if difficulty == "hard":
+                sudoku = SudokuGenerator(9, 50)
             draw_num()
+
+
 
 
     pygame.display.update()

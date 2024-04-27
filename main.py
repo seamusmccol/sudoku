@@ -194,15 +194,14 @@ while True:
             pygame.quit()
             sys.exit()
 
-        # Display the mouse click coordinate just for testing purpose.
-        # It should be removed/commented for the final presentation
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            print(x, y)
-            row = y // SQUARE_SIZE
-            col = x // SQUARE_SIZE
+            row = y // SQUARE_SIZE2
+            col = x // SQUARE_SIZE2
 
         # Mouse click coordinate are x,y.
+            board = Board(row, col, screen, difficulty)
+            board.select(x, y)
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
 
@@ -231,21 +230,17 @@ while True:
                     sudoku = SudokuGenerator(9, 30)
                     sudoku.fill_values()
                     sudoku.remove_cells()
-                    print(sudoku.get_board())
                 if difficulty == "medium":
                     sudoku = SudokuGenerator(9, 40)
                     sudoku.fill_values()
                     sudoku.remove_cells()
-                    print(sudoku.get_board())
                 if difficulty == "hard":
                     sudoku = SudokuGenerator(9, 50)
                     sudoku.fill_values()
                     sudoku.remove_cells()
-                    print(sudoku.get_board())
-                board = Board(row, col, screen, difficulty)
+                # board = Board(row, col, screen, difficulty)
                 difficulty_button_clicked = False
 
-                print(sudoku.get_board())
 
                 # print(sudoku.get_board()[0][0])
 
@@ -262,8 +257,6 @@ while True:
                         screen.blit(num_surf, num_rect)
                 # print the diagnal again
                 board.draw()
-
-
 
                 pygame.display.update()
 

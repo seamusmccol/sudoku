@@ -70,7 +70,6 @@ class SudokuGenerator:
         used_numbers = [[] for _ in range(BOARD_ROWS)]
         used_columns = [[] for _ in range(BOARD_ROWS)]
         used_grids = [[] for _ in range(BOARD_ROWS)]
-        print(used_numbers)
         # creates a diagonal
         for row in range(BOARD_ROWS):
             for col in range(BOARD_COLS):
@@ -185,7 +184,6 @@ class SudokuGenerator:
         target = self.removed_cells
         changed = 0
         while changed < target:
-            print(f"run number is: {changed}")
             row = random.randint(0, self.row_length - 1)
             col = random.randint(0, self.row_length - 1)
             if self.board[row][col] != " ":

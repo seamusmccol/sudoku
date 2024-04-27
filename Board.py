@@ -66,7 +66,7 @@ class Board:
             )
 
     def select(self, row, col):
-        pass
+        self.selected = (row, col)
 
     def click(self, x, y):
         pass

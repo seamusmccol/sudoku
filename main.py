@@ -3,6 +3,7 @@ import random
 from Board import *
 from sudoku_generator import SudokuGenerator
 import pygame, sys
+from Cell import *
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku")
@@ -202,6 +203,7 @@ while True:
         # Mouse click coordinate are x,y.
             board = Board(row, col, screen, difficulty)
             board.select(x, y)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
 
@@ -240,9 +242,6 @@ while True:
                     sudoku.remove_cells()
                 # board = Board(row, col, screen, difficulty)
                 difficulty_button_clicked = False
-
-
-                # print(sudoku.get_board()[0][0])
 
                 # print self.board
                 num_font = pygame.font.Font(None, NUM_SIZE)

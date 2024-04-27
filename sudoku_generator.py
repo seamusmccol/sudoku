@@ -1,4 +1,9 @@
 import math, random, copy
+from Board import *
+import pygame
+
+
+
 
 
 class SudokuGenerator:
@@ -60,8 +65,29 @@ class SudokuGenerator:
 
     # this function fills the diagonals
     def fill_diagonal(self):
-        for start in range(0, int(self.row_length), 3):
-            self.fill_box(int(start), int(start))
+        num_font = pygame.font.Font(None, NUM_SIZE)
+        screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        # creates a diagonal
+        for row in range(BOARD_ROWS):
+            for col in range(BOARD_COLS):
+                if row < 3:
+                    if col < 3:
+                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
+                        num_rect = num_surf.get_rect(
+                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                        screen.blit(num_surf, num_rect)
+                elif row >= 3 and row < 6:
+                    if col >= 3 and col < 6:
+                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
+                        num_rect = num_surf.get_rect(
+                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                        screen.blit(num_surf, num_rect)
+                elif row >= 6 and row < 9:
+                    if col >= 6 and col < 9:
+                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
+                        num_rect = num_surf.get_rect(
+                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                        screen.blit(num_surf, num_rect)
 
     # once fill_diagonal is called, this function proceeds to fill the rest of the board
     def fill_remaining(self, row, col):

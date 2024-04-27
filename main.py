@@ -1,9 +1,8 @@
 import random
 
-import pygame, sys
 from Board import *
 from sudoku_generator import SudokuGenerator
-
+import pygame, sys
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku")
@@ -13,7 +12,7 @@ num_font = pygame.font.Font(None, NUM_SIZE)
 
 difficulty = 'easy'
 
-Board(board, WIDTH, HEIGHT, screen, difficulty)
+
 
 def game_start_screen(screen):
     # Initialize screens and fonts for the start screen
@@ -165,35 +164,29 @@ def draw_grid():
             LINE_WIDTH2
         )
 
-def draw_num():
-    #the number 5 is temporary
-    num_surf = num_font.render("2", 0, NUM_COLOR)
-    #make the board initialization in order for this to work
-    for row in range(BOARD_ROWS):
-        for col in range(BOARD_COLS):
-            if board[row][col] != 0:
-                num_rect = num_surf.get_rect( center = (col*SQUARE_SIZE2 + SQUARE_SIZE2/2, row * SQUARE_SIZE2 + SQUARE_SIZE2/2))
-                screen.blit(num_surf, num_rect)
-
-
-
-
-    num_surf = num_font.render("5", 0, NUM_COLOR)
-    num_rect = num_surf.get_rect(center = (WIDTH / 2, HEIGHT / 2))
-    screen.blit(num_surf, num_rect)
-
+difficulty_button_clicked = False
 # Initialize game start screen
-screen.fill(BG_COLOR)
-game_start_screen(screen)
+while True:
+    screen.fill(BG_COLOR)
+    game_start_screen(screen)
 
+    pygame.display.update()
+    break
 
 # Uncomment either one to see how it looks
 # game_won_screen(screen)
 # game_lost_screen(screen)
 
 # This variable is to ensure the program will ONLY proceed when a button in welcome screen is clicked
-difficulty_button_clicked = False
 
+current_screen = 0
+start_screen = 1
+game_screen = 2
+easy_button = True
+medium_button = True
+hard_button = True
+
+current_screen = start_screen
 while True:
     #event loop
     for event in pygame.event.get():
@@ -214,36 +207,48 @@ while True:
             x, y = event.pos
 
             # The following if functions detect which button user clicked
-            if easy_rectangle.collidepoint(x, y):
+            if (easy_rectangle.collidepoint(x, y)) and (easy_button == True):
                 # User click on "easy", should set blank space generated quantity accordingly
-                print("easy")
                 difficulty_button_clicked = True
                 difficulty = "easy"
-            elif medium_rectangle.collidepoint(x, y):
+                easy_button = False
+            elif (medium_rectangle.collidepoint(x, y)) and (medium_button == True):
                 # User click on "medium", should set blank space generated quantity accordingly
-                print("medium")
                 difficulty_button_clicked = True
                 difficulty = "medium"
-            elif hard_rectangle.collidepoint(x, y):
+                medium_button = False
+            elif (hard_rectangle.collidepoint(x, y)) and (hard_button == True):
                 # User click on "hard", should set blank space generated quantity accordingly
-                print("hard")
                 difficulty_button_clicked = True
                 difficulty = "hard"
+                hard_button = False
 
         if difficulty_button_clicked == True:
-            # Set up the grid
-            screen.fill(BG_COLOR)
-            draw_grid()
-            if difficulty == "easy":
-                sudoku = SudokuGenerator(9, 30)
-            if difficulty == "medium":
-                sudoku = SudokuGenerator(9, 40)
-            if difficulty == "hard":
-                sudoku = SudokuGenerator(9, 50)
-            draw_num()
+            if current_screen == start_screen:
+                current_screen = game_screen
+                # Set up the grid
+                if difficulty == "easy":
+                    sudoku = SudokuGenerator(9, 30)
+                    sudoku.fill_values()
+                if difficulty == "medium":
+                    sudoku = SudokuGenerator(9, 40)
+                    sudoku.fill_values()
+                if difficulty == "hard":
+                    sudoku = SudokuGenerator(9, 50)
+                    sudoku.fill_values()
+                board = Board(row, col, screen, difficulty)
+                board.draw()
+                pygame.display.update()
+                difficulty_button_clicked = False
+                print(sudoku.get_board())
 
 
 
 
-    pygame.display.update()
+
+
+
+
+
+
 

@@ -67,27 +67,49 @@ class SudokuGenerator:
     def fill_diagonal(self):
         num_font = pygame.font.Font(None, NUM_SIZE)
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        used_numbers = [[] for _ in range(BOARD_ROWS)]
+        used_columns = [[], [], [], [], [], [], [], [], []]
+        print(used_numbers)
         # creates a diagonal
         for row in range(BOARD_ROWS):
             for col in range(BOARD_COLS):
                 if row < 3:
                     if col < 3:
-                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
-                        num_rect = num_surf.get_rect(
-                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                        screen.blit(num_surf, num_rect)
+                        random_num = random.randint(1, 9)
+                        if random_num not in used_numbers:
+                            num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
+                            num_rect = num_surf.get_rect(
+                                center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                            screen.blit(num_surf, num_rect)
+                            used_numbers.append(random_num)
                 elif row >= 3 and row < 6:
                     if col >= 3 and col < 6:
-                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
-                        num_rect = num_surf.get_rect(
-                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                        screen.blit(num_surf, num_rect)
+                        random_num = random.randint(1, 9)
+                        if random_num not in used_numbers:
+                            num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
+                            num_rect = num_surf.get_rect(
+                                center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                            screen.blit(num_surf, num_rect)
+                            used_numbers.append(random_num)
+
                 elif row >= 6 and row < 9:
                     if col >= 6 and col < 9:
-                        num_surf = num_font.render(str(random.randint(1, 9)), 0, NUM_COLOR)
-                        num_rect = num_surf.get_rect(
-                            center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                        screen.blit(num_surf, num_rect)
+                        valid_found = False
+                        attempts = 0  # to avoid infinite loops in case of an error
+                        while not valid_found and attempts < 100:
+                            random_num = random.randint(1, 9)
+                            # Check both the specific row and column for uniqueness
+                            if random_num not in used_numbers[row] and random_num not in used_columns[col]:
+                                num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
+                                num_rect = num_surf.get_rect(
+                                    center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                                screen.blit(num_surf, num_rect)
+                                used_numbers[row].append(random_num)
+                                used_columns[col].append(random_num)
+                                valid_found = True
+                            attempts += 1
+
+
 
     # once fill_diagonal is called, this function proceeds to fill the rest of the board
     def fill_remaining(self, row, col):

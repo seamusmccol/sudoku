@@ -230,34 +230,41 @@ while True:
                 if difficulty == "easy":
                     sudoku = SudokuGenerator(9, 30)
                     sudoku.fill_values()
+                    sudoku.remove_cells()
+                    print(sudoku.get_board())
                 if difficulty == "medium":
                     sudoku = SudokuGenerator(9, 40)
                     sudoku.fill_values()
+                    sudoku.remove_cells()
+                    print(sudoku.get_board())
                 if difficulty == "hard":
                     sudoku = SudokuGenerator(9, 50)
                     sudoku.fill_values()
+                    sudoku.remove_cells()
+                    print(sudoku.get_board())
                 board = Board(row, col, screen, difficulty)
-                board.draw()
                 difficulty_button_clicked = False
+
                 print(sudoku.get_board())
 
-                # # print(sudoku.get_board()[0][0])
+                # print(sudoku.get_board()[0][0])
+
+                # print self.board
+                num_font = pygame.font.Font(None, NUM_SIZE)
+                screen = pygame.display.set_mode((WIDTH, HEIGHT))
                 #
-                # # print self.board
-                # num_font = pygame.font.Font(None, NUM_SIZE)
-                # screen = pygame.display.set_mode((WIDTH, HEIGHT))
-                # # p
-                # for row in range(BOARD_ROWS):
-                #     for col in range(BOARD_COLS):
-                #         # print([[row],[col]],  sudoku.get_board()[row][col])
-                #         num = sudoku.get_board()[row][col]
-                #         num_surf = num_font.render(str(num), 0, NUM_COLOR)
-                #         num_rect = num_surf.get_rect(center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                #         screen.blit(num_surf, num_rect)
-                # # print the diagnal again
-                # board.draw()
-                #
-                #
+                for row in range(BOARD_ROWS):
+                    for col in range(BOARD_COLS):
+                        # print([[row],[col]],  sudoku.get_board()[row][col])
+                        num = sudoku.get_board()[row][col]
+                        num_surf = num_font.render(str(num), 0, NUM_COLOR)
+                        num_rect = num_surf.get_rect(center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                        screen.blit(num_surf, num_rect)
+                # print the diagnal again
+                board.draw()
+
+
+
                 pygame.display.update()
 
 

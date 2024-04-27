@@ -68,48 +68,81 @@ class SudokuGenerator:
         num_font = pygame.font.Font(None, NUM_SIZE)
         screen = pygame.display.set_mode((WIDTH, HEIGHT))
         used_numbers = [[] for _ in range(BOARD_ROWS)]
-        used_columns = [[], [], [], [], [], [], [], [], []]
+        used_columns = [[] for _ in range(BOARD_ROWS)]
+        used_grids = [[] for _ in range(BOARD_ROWS)]
         print(used_numbers)
         # creates a diagonal
         for row in range(BOARD_ROWS):
             for col in range(BOARD_COLS):
                 if row < 3:
                     if col < 3:
-                        random_num = random.randint(1, 9)
-                        if random_num not in used_numbers:
-                            num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
-                            num_rect = num_surf.get_rect(
-                                center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                            screen.blit(num_surf, num_rect)
-                            used_numbers.append(random_num)
+                        grid_index = (row // 3) * 3 + (col // 3)
+                        valid_found = False
+                        attempts = 0
+                        while not valid_found and attempts < 100:
+                            random_num = random.randint(1, 9)
+                            if (random_num not in used_numbers[row] and random_num not in used_columns[col] and
+                                    random_num not in used_grids[grid_index]):
+                                num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
+                                num_rect = num_surf.get_rect(
+                                    center=(
+                                    col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                                screen.blit(num_surf, num_rect)
+                                # Append this number to self.board
+                                self.board[row][col] = random_num
+
+                                used_numbers[row].append(random_num)
+                                used_columns[col].append(random_num)
+                                used_grids[grid_index].append(random_num)
+                                valid_found = True
+                            attempts += 1
                 elif row >= 3 and row < 6:
                     if col >= 3 and col < 6:
-                        random_num = random.randint(1, 9)
-                        if random_num not in used_numbers:
-                            num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
-                            num_rect = num_surf.get_rect(
-                                center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
-                            screen.blit(num_surf, num_rect)
-                            used_numbers.append(random_num)
+                        grid_index = (row // 3) * 3 + (col // 3)
+                        valid_found = False
+                        attempts = 0
+                        while not valid_found and attempts < 100:
+                            random_num = random.randint(1, 9)
+                            if (random_num not in used_numbers[row] and
+                                    random_num not in used_columns[col] and
+                                    random_num not in used_grids[grid_index]):
+                                num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
+                                num_rect = num_surf.get_rect(
+                                    center=(
+                                    col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
+                                screen.blit(num_surf, num_rect)
+                                # Append this number to self.board
+                                self.board[row][col] = random_num
+
+                                used_numbers[row].append(random_num)
+                                used_columns[col].append(random_num)
+                                used_grids[grid_index].append(random_num)
+                                valid_found = True
+                            attempts += 1
 
                 elif row >= 6 and row < 9:
                     if col >= 6 and col < 9:
+                        grid_index = (row // 3) * 3 + (col // 3)
                         valid_found = False
-                        attempts = 0  # to avoid infinite loops in case of an error
+                        attempts = 0
                         while not valid_found and attempts < 100:
                             random_num = random.randint(1, 9)
-                            # Check both the specific row and column for uniqueness
-                            if random_num not in used_numbers[row] and random_num not in used_columns[col]:
+
+                            if (random_num not in used_numbers[row] and
+                                    random_num not in used_columns[col] and
+                                    random_num not in used_grids[grid_index]):
                                 num_surf = num_font.render(str(random_num), 0, NUM_COLOR)
                                 num_rect = num_surf.get_rect(
                                     center=(col * SQUARE_SIZE2 + SQUARE_SIZE2 / 2, row * SQUARE_SIZE2 + SQUARE_SIZE2 / 2))
                                 screen.blit(num_surf, num_rect)
+                                # Append this number to self.board
+                                self.board[row][col] = random_num
+
                                 used_numbers[row].append(random_num)
                                 used_columns[col].append(random_num)
+                                used_grids[grid_index].append(random_num)
                                 valid_found = True
                             attempts += 1
-
-
 
     # once fill_diagonal is called, this function proceeds to fill the rest of the board
     def fill_remaining(self, row, col):
@@ -149,17 +182,18 @@ class SudokuGenerator:
 
     # randomly generates coords on the board with value = 0 based on the users inputted level of difficulty
     def remove_cells(self):
-        gtfo = self.removed_cells
-        wna = 0
-        while wna < self.removed_cells:
+        target = self.removed_cells
+        changed = 0
+        while changed < target:
+            print(f"run number is: {changed}")
             row = random.randint(0, self.row_length - 1)
             col = random.randint(0, self.row_length - 1)
-            if self.board[row][col] != 0:
-                self.board[row][col] = 0
-                wna += 1
-                gtfo -= 1
-                if gtfo == 0:
-                    return
+            if self.board[row][col] != " ":
+                self.board[row][col] = " "
+                changed = changed + 1
+            elif self.board[row][col] == 0:
+                continue
+        return
 
 
 # this function generates the board players will interact with

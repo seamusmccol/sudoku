@@ -173,72 +173,46 @@ def check_fill():
 # win_list = []
 # in_list = []
 
-in_list_i = [[],[],[],[],[],[],[],[],[]]
-in_list_j = [[],[],[],[],[],[],[],[],[]]
+# [[], [], [], [], [], [], [], [], []]
+in_list_i = [[] for i in range(9)]
+in_list_j = [[] for j in range(9)]
+box = [[] for j in range(9)]
 
 def check_board():
+    # check_board function ONLY return True when row, col, 3*3 grid all three are satisfied
     # check row
     for i in range(9): # row
         for j in range(9): # col
+            # if sudoku.get_board()[i][j] == " ":
+            #     return False
             if sudoku.get_board()[i][j] not in in_list_i[i]:
-                in_list_i[i].append(sudoku.get_board()[i][j])
+                in_list_i[i].append(int(sudoku.get_board()[i][j]))
                 continue
             elif sudoku.get_board()[i][j] in in_list_i[i]:
+                print(f"row {i} is: {in_list_i[i]}")
                 return False
     # check col
     for j in range(9): # row
         for i in range(9): # col
+            # if sudoku.get_board()[i][j] == " ":
+            #     return False
             if sudoku.get_board()[i][j] not in in_list_j[j]:
-                in_list_j[j].append(sudoku.get_board()[i][j])
+                in_list_j[j].append(int(sudoku.get_board()[i][j]))
                 continue
             elif sudoku.get_board()[i][j] in in_list_j[j]:
                 return False
-
-    # for i in in_list:
-    #     print(i)
     # check 3x3 box
-
+    for i in range(9): # row
+        for j in range(9): # col
+            box_index = j//3 + (i//3)*3
+            # if sudoku.get_board()[i][j] == " ":
+            #     return False
+            if sudoku.get_board()[i][j] not in box[box_index]:
+                box[box_index].append(int(sudoku.get_board()[i][j]))
+            elif sudoku.get_board()[i][j] in box[box_index]:
+                return False
     # If all three check pass
     return True
-
-
-
-
-
-
-
-    #     for i in range(9):
-    #         for j in range(9):
-    #             if win_list[i][j] not in in_list:
-    #                 in_list.append(win_list[i][j])
-    #
-    #                 in_list.clear()
-    #                 break
-    #             else:
-    #                 return False
-    #     for i in range(9):
-    #         for j in range(9):
-    #             if win_list[i][j] not in in_list:
-    #                 in_list.append(win_list[i][j])
-    #                 i += 3
-    #                 if i > 9:
-    #                     in_list.clear()
-    #                     break
-    #             else:
-    #                 return False
-    #     for i in win_list:
-    #
-    #         for j in win_list:
-    #             if win_list[i][j] not in in_list:
-    #                 in_list.append(win_list[i][j])
-    #                 j += 3
-    #                 if j > 9:
-    #                     i += 3
-    #                     in_list.clear()
-    #                     break
-    #             else:
-    #                 return False
-    # return True
 
 def draw_select(col_num,row_num):
     pygame.draw.rect(screen, ('Red'), (SQUARE_SIZE2*col_num+5, SQUARE_SIZE2*row_num+5, SQUARE_SIZE2-7.5, SQUARE_SIZE2-7.5), 5)
@@ -322,7 +296,7 @@ while True:
                 current_screen = game_screen
                 # Set up the grid
                 if difficulty == "easy":
-                    sudoku = SudokuGenerator(9, 2)
+                    sudoku = SudokuGenerator(9, 30)
                     sudoku.fill_values()
                     sudoku.remove_cells()
                 if difficulty == "medium":
@@ -487,11 +461,12 @@ while True:
                     sketch_board[int(row_num)][int(col_num)] = 9
 
         if event.type == pygame.KEYDOWN:
-
+            # etch-in when return is pressed
             if event.key == pygame.K_RETURN:
                 value = sketch_board[int(row_num)][int(col_num)]
 
                 sudoku.get_board()[int(row_num)][int(col_num)] = value
+
                 print(sudoku.get_board())
 
                 num_surf = num_font.render(str(value), 0, NUM_COLOR)
@@ -500,12 +475,13 @@ while True:
                 screen.blit(num_surf, num_rect)
 
 
-            if check_fill() == True:
-                # win_list = sudoku.get_board()
-                if check_board() == True:
-                    game_won_screen(screen)
-                elif check_board() ==  False:
-                    game_lost_screen(screen)
+                # determine if board is fully filled
+                if check_fill() == True:
+                    # check if a win is achieved (Three checks: row, col, 3x3 grid)
+                    if check_board() == True:
+                        game_won_screen(screen)
+                    elif check_board() ==  False:
+                        game_lost_screen(screen)
 
 
 

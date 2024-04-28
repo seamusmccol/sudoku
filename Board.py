@@ -1,4 +1,3 @@
-# Test push
 import pygame,sys
 
 WIDTH = 600
@@ -17,6 +16,8 @@ SQUARE_SIZE2 = 66.7
 SPACE_SIZE = 20
 NUM_SIZE = 40
 GAME_OVER_FONT = 40
+GRAY = (128, 128, 128)
+
 
 
 

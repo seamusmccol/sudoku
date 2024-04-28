@@ -1,3 +1,4 @@
+# Test push
 from Board import *
 import pygame
 class Cell:
@@ -16,6 +17,7 @@ class Cell:
         self.sketch = value
 
     def draw(self):
+        pass
         # font = pygame.font.Font(None, 40)
         # if self.value != 0:
         #     text_1 = font.render(str(self.value), True, (0, 0, 0))

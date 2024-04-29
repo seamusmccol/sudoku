@@ -1,3 +1,4 @@
+# Final version
 from main import *
 from Board import *
 class Cell:
@@ -20,4 +21,3 @@ class Cell:
 
     def draw(self):
         pass
-#

@@ -1,3 +1,4 @@
+# Final version
 import pygame,sys
 
 WIDTH = 600
@@ -97,4 +98,3 @@ class Board:
 
     def check_board(self):
         pass
-

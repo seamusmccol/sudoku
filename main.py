@@ -1,3 +1,4 @@
+# Final version
 import random
 from Cell import *
 from Board import *
@@ -225,7 +226,7 @@ def check_board():
                 in_list_i[i].append(int(sudoku.get_board()[i][j]))
                 continue
             elif sudoku.get_board()[i][j] in in_list_i[i]:
-                print(f"row {i} is: {in_list_i[i]}")
+                # print(f"row {i} is: {in_list_i[i]}")
                 return False
     # check col
     for j in range(9): # row
@@ -334,30 +335,6 @@ while True:
                 difficulty = "hard"
                 hard_button = False
 
-            # elif (restart_rectangle.collidepoint(x, y)) and (restart_button == True):
-            #     # Restarts to the start screen
-            #     current_screen = 0
-            #     start_screen = 1
-            #     game_screen = 2
-            #     easy_button = True
-            #     medium_button = True
-            #     hard_button = True
-            #     reset_button = True
-            #     restart_button = True
-            #     exit_button = True
-            #     screen.fill(BG_COLOR)
-            #     game_start_screen(screen)
-            #
-            #     pygame.display.update()
-            #     current_screen = start_screen
-            #
-            #
-            # elif (exit_rectangle.collidepoint(x, y)) and (exit_button == True):
-            #     # Ends the game
-            #     pygame.quit()
-            #     sys.exit()
-
-
         if difficulty_button_clicked == True:
             if current_screen == start_screen:
                 current_screen = game_screen
@@ -414,6 +391,7 @@ while True:
                     sudoku = SudokuGenerator(9, 50)
                     sudoku.fill_values()
                     sudoku.remove_cells()
+                    break
 
                 num_font = pygame.font.Font(None, NUM_SIZE)
                 screen = pygame.display.set_mode((WIDTH, EHEIGHT))
@@ -447,6 +425,44 @@ while True:
 
                 pygame.display.update()
                 current_screen = start_screen
+
+            elif (exit_rectangle.collidepoint(x, y)) and (exit_button == True):
+                # Ends the game
+                pygame.quit()
+                sys.exit()
+
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+
+            if (restart_rectangle.collidepoint(x, y)) and (restart_button == True):
+                # Clear all game state lists
+                in_list_i = [[] for _ in range(9)]
+                in_list_j = [[] for _ in range(9)]
+                box = [[] for _ in range(9)]
+
+                # Reset game as before
+                current_screen = start_screen
+                easy_button = medium_button = hard_button = True
+                screen.fill(BG_COLOR)
+                game_start_screen(screen)
+                pygame.display.update()
+
+                # Restarts to the start screen
+                # current_screen = 0
+                start_screen = 1
+                game_screen = 2
+                # easy_button = True
+                # medium_button = True
+                # hard_button = True
+                reset_button = True
+                restart_button = True
+                exit_button = True
+                screen.fill(BG_COLOR)
+                game_start_screen(screen)
+
+                pygame.display.update()
+                # current_screen = start_screen
                 break
 
             elif (exit_rectangle.collidepoint(x, y)) and (exit_button == True):
@@ -596,7 +612,7 @@ while True:
 
                 sudoku.get_board()[int(row_num)][int(col_num)] = value
 
-                print(sudoku.get_board())
+                # print(sudoku.get_board())
 
                 num_surf = num_font.render(str(value), 0, NUM_COLOR)
                 num_rect = num_surf.get_rect(
@@ -614,7 +630,18 @@ while True:
                         sudoku.board = [[0] * sudoku.row_length for i in range(sudoku.row_length)]
 
 
+
         pygame.display.update()
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -66,6 +66,40 @@ def game_start_screen(screen):
     screen.blit(hard, hard_rectangle)
 
 
+def game_buttons(screen):
+    button_font = pygame.font.Font(None, 50)
+
+    # Initialize button and text
+    reset_text = button_font.render("Reset", 0, (255, 255, 255))
+    restart_text = button_font.render("Restart", 0, (255, 255, 255))
+    exit_text = button_font.render("Exit", 0, (255, 255, 255))
+
+    # Initialize background and text color of the buttons
+    reset = pygame.Surface((reset_text.get_size()[0] + 20, reset_text.get_size()[1] + 20))
+    reset.fill(BG_COLOR)
+    reset.blit(reset_text, (10, 10))
+    restart = pygame.Surface((restart_text.get_size()[0] + 20, restart_text.get_size()[1] + 20))
+    restart.fill(BG_COLOR)
+    restart.blit(restart_text, (10, 10))
+    exit = pygame.Surface((exit_text.get_size()[0] + 20, exit_text.get_size()[1] + 20))
+    exit.fill(BG_COLOR)
+    exit.blit(exit_text, (10, 10))
+
+    # Global button rectangle areas for mouse click checking in main()
+    global reset_rectangle, restart_rectangle, exit_rectangle
+
+    # Activates button
+    reset_rectangle = reset.get_rect(center=(WIDTH // 2 - 150, HEIGHT // 2 + 350))
+    restart_rectangle = restart.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 350))
+    exit_rectangle = exit.get_rect(center=(WIDTH // 2 + 150, HEIGHT // 2 + 350))
+
+
+    # Draw Buttons
+
+    screen.blit(reset, reset_rectangle)
+    screen.blit(restart, restart_rectangle)
+    screen.blit(exit, exit_rectangle)
+
 def game_won_screen(screen):
     # Initialize screens and fonts for the start screen
     screen.fill(BG_COLOR)
@@ -247,6 +281,9 @@ game_screen = 2
 easy_button = True
 medium_button = True
 hard_button = True
+reset_button = True
+restart_button = True
+exit_button = True
 
 click_time = -2
 last_col_num = 0
@@ -291,6 +328,29 @@ while True:
                 difficulty = "hard"
                 hard_button = False
 
+            elif (restart_rectangle.collidepoint(x, y)) and (restart_button == True):
+                # Restarts to the start screen
+                current_screen = 0
+                start_screen = 1
+                game_screen = 2
+                easy_button = True
+                medium_button = True
+                hard_button = True
+                reset_button = True
+                restart_button = True
+                exit_button = True
+                screen.fill(BG_COLOR)
+                game_start_screen(screen)
+
+                pygame.display.update()
+                current_screen = start_screen
+                break
+
+            elif (exit_rectangle.collidepoint(x, y)) and (exit_button == True):
+                # Ends the game
+                pygame.quit()
+                sys.exit()
+
         if difficulty_button_clicked == True:
             if current_screen == start_screen:
                 current_screen = game_screen
@@ -307,15 +367,16 @@ while True:
                     sudoku = SudokuGenerator(9, 50)
                     sudoku.fill_values()
                     sudoku.remove_cells()
+
                 difficulty_button_clicked = False
 
+                game_buttons(screen)
+                num_font = pygame.font.Font(None, NUM_SIZE)
+                screen = pygame.display.set_mode((WIDTH, EHEIGHT))
+                game_buttons(screen)
 
                 # print(sudoku.get_board()[0][0])
 
-                # print self.board
-                num_font = pygame.font.Font(None, NUM_SIZE)
-                screen = pygame.display.set_mode((WIDTH, HEIGHT))
-                #
                 for row in range(BOARD_ROWS):
                     for col in range(BOARD_COLS):
                         # print([[row],[col]],  sudoku.get_board()[row][col])
@@ -325,6 +386,8 @@ while True:
                         screen.blit(num_surf, num_rect)
                 # print the diagonal again
                 board.draw()
+
+                pygame.display.update()
 
         # mouseclick
         if event.type == pygame.MOUSEBUTTONDOWN:

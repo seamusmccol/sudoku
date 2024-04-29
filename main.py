@@ -164,6 +164,7 @@ def game_lost_screen(screen):
     # Draw Buttons
     screen.blit(restart, restart_rectangle)
 
+
 def draw_grid():
     #draw horizontal line
     for i in range(1, BOARD_ROWS):
@@ -610,8 +611,7 @@ while True:
                         game_won_screen(screen)
                     elif check_board() ==  False:
                         game_lost_screen(screen)
-
-
+                        sudoku.board = [[0] * sudoku.row_length for i in range(sudoku.row_length)]
 
 
         pygame.display.update()

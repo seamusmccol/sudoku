@@ -1,3 +1,5 @@
+from main import *
+from Board import *
 class Cell:
 
     def __init__(self, value, row, col, screen):
@@ -5,6 +7,11 @@ class Cell:
         self.row = row
         self.col = col
         self.screen = screen
+        self.rectangle = ''
+        self.selected = False
+        self.selectable = False
+        if self.value == 0:
+            self.selectable = True
     def set_cell_value(self, value):
         self.value = value
 
@@ -13,3 +20,4 @@ class Cell:
 
     def draw(self):
         pass
+#

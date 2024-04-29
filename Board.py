@@ -1,5 +1,8 @@
+import pygame,sys
+
 WIDTH = 600
 HEIGHT = 600
+EHEIGHT = 700
 RED = (255, 0, 0)
 BG_COLOR = (0, 0, 0)
 LINE_COLOR = (255, 255, 255)
@@ -14,25 +17,59 @@ SQUARE_SIZE2 = 66.7
 SPACE_SIZE = 20
 NUM_SIZE = 40
 GAME_OVER_FONT = 40
+GRAY = (128, 128, 128)
 
 
 
 
 
 
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Board:
-    def __init__(self, width, height, screen, difficulty):
-        self.width = width
-        self.height = height
+    def __init__(self, WIDTH, HEIGHT, screen, difficulty):
+        self.selected = None
+        self.width = WIDTH
+        self.height = HEIGHT
         self.screen = screen
         self.difficulty = difficulty
 
     def draw(self):
-        pass
+        for i in range(1, BOARD_ROWS):
+            pygame.draw.line(
+                screen,
+                LINE_COLOR,
+                (0, i * SQUARE_SIZE),
+                (WIDTH, i * SQUARE_SIZE),
+                LINE_WIDTH
+            )
+            pygame.draw.line(
+                screen,
+                LINE_COLOR,
+                (0, i * SQUARE_SIZE2),
+                (WIDTH, i * SQUARE_SIZE2),
+                LINE_WIDTH2
+            )
+        # draw vertical lines
+        for i in range(1, BOARD_COLS):
+            pygame.draw.line(
+                screen,
+                LINE_COLOR,
+                (i * SQUARE_SIZE, 0),
+                (i * SQUARE_SIZE, HEIGHT),
+                LINE_WIDTH
+            )
+            pygame.draw.line(
+                screen,
+                LINE_COLOR,
+                (i * SQUARE_SIZE2, 0),
+                (i * SQUARE_SIZE2, HEIGHT),
+                LINE_WIDTH2
+            )
 
     def select(self, row, col):
-        pass
+        self.selected = (row, col)
 
     def click(self, x, y):
         pass
